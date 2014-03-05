@@ -1,0 +1,59 @@
+actors are not thread-based
+
+
+cameo pattern - extra with named handler actor
+
+not closing actors causes memory leaks
+
+two messages from actor A sent to B are guaranteed to get to  in the order they were sent
+
+failure zones allow us to create failure domains => we need specialized exceptions for it
+
+TestActorRef
+
+
+----------------------
+best practices
+----------------------
+
+- nice to have a props factory in a companion object: MyMegaActor.props()
+- create explicit supervisors (dedicated for type of sub-actor)
+- use failure zones (separate dispatchers):
+    system.actorOf(props, name).withDispatcher("handler-dispatcher") - especially if you have blocking interactions
+if you block (many actors) having one dispatcher other actors won't work as well
+- be specific with sent messages (e.g. Withdrawal(100, user_id=231) instead of AccountChanged) they result in herd storms
+- use bounded mailboxes and retries
+- Circuit Breaker - providing back-pressure
+- unique ids for messages - e.g. hashes (sth less expensive than UUID)
+- previous state can be passed to respawned actor
+- never reference "this", use "self" which is actorref to this
+- typesafe console shows what happens with actors
+- don't use the typesafe console in prod (use it for dev)
+
+
+
+
+dbs with async drivers: mysql, mongo
+
+
+
+
+
+
+
+data dog
+
+should be much faster than JMS
+throughput setting of an actor
+default dispatcher uses fork-join thread pool
+
+
+github.com/jamie-allen/effective_akka
+
+every variable update before volatile var update gets propagated on update of the volatile one
+
+
+dapper
+
+http://en.wikipedia.org/wiki/Amdahl's_law
+http://en.wikipedia.org/wiki/Little's_law

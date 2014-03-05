@@ -1,5 +1,5 @@
 
-name := "My Project"
+name := "Scala basics"
  
 version := "1.0"
  
